@@ -14,7 +14,7 @@ function App() {
               <div className="relative flex items-center ml-auto">
                 <div className="flex items-center border-l border-natural-600">
                   <a
-                    href="https://github.com/tailwindlabs/tailwindcss"
+                    href="https://github.com/keiko713/vacuum-simulator"
                     className="ml-6 block text-slate-400 hover:text-natural-600"
                   >
                     <FontAwesomeIcon icon={faGithub} />
