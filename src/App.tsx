@@ -1,45 +1,53 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import HelpModal from "./components/HelpModal";
+import { useState } from "react";
+import PageContent from "./components/PageContent";
 
 function App() {
+  // TODO: consider moving this to context
+  const [helpModalOpen, setHelpModalOpen] = useState<boolean>(false);
   return (
     <div>
-      <div className="sticky top-0 z-40 w-full backdrop-blur flex-none bg-white supports-backdrop-blur:bg-white/95">
-        <div className="max-w-8xl mx-auto">
-          <div className="py-4 border-b px-8 mx-0 lg:px-16">
-            <div className="relative flex items-center">
-              <a className="mr-3 flex-none overflow-hidden" href="/">
-                VACUUM Simulator
-              </a>
-              <div className="relative flex items-center ml-auto">
-                <div className="flex items-center border-l border-natural-600">
-                  <a
-                    href="https://github.com/keiko713/vacuum-simulator"
-                    className="ml-6 block text-slate-400 hover:text-natural-600"
-                  >
-                    <FontAwesomeIcon icon={faGithub} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="max-w-8xl mx-auto">
-        <div className="py-4 px-8 lg:px-16">
-          <WelcomeMessage />
-        </div>
-      </div>
+      <>
+        <PageHeader setOpenFunction={setHelpModalOpen} />
+        <PageContent />
+        {helpModalOpen && <HelpModal setOpenFunction={setHelpModalOpen} />}
+      </>
     </div>
   );
 }
 
-const WelcomeMessage: React.FunctionComponent<{}> = () => {
+const PageHeader: React.FunctionComponent<{
+  setOpenFunction: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setOpenFunction }) => {
   return (
-    <div className="font-medium border rounded px-4 py-3 bg-slate-50 border-slate-200 text-slate-700">
-      <div className="py-1">
-        <div className="font-semibold mb-1">Welcome to VACUUM Simulator!</div>
-        Hello Hello
+    <div className="sticky top-0 z-40 w-full backdrop-blur flex-none bg-[#F2F0E5] supports-backdrop-blur:bg-[#F2F0E5]/95">
+      <div className="max-w-8xl mx-auto">
+        <div className="py-4 border-b px-8 mx-0 lg:px-16">
+          <div className="relative flex items-center">
+            <a className="mr-3 flex-none overflow-hidden text-[16px]" href="/">
+              VACUUM Simulator
+            </a>
+            <div className="relative flex items-center ml-auto">
+              <div className="flex items-center border-l border-natural-600 text-slate-400">
+                <a
+                  href="https://github.com/keiko713/vacuum-simulator"
+                  className="ml-6 block hover:text-slate-600"
+                >
+                  <FontAwesomeIcon icon={faGithub}/>
+                </a>
+                <button
+                  onClick={() => setOpenFunction(true)}
+                  className="ml-6 block hover:text-slate-600"
+                >
+                  <FontAwesomeIcon icon={faQuestionCircle} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
