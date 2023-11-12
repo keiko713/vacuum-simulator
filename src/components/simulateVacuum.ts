@@ -80,7 +80,6 @@ export const simulateVacuum = (
     const inserts = tableStats.inserts[i][1] || 0;
     const updates = tableStats.updates[i][1] || 0;
     const deletes = tableStats.deletes[i][1] || 0;
-    const newRows = inserts + updates;
     let deadRows = deletes + updates;
     const collectedAt = dat[0];
     // Fill null data in case no data
@@ -201,7 +200,7 @@ function calculateXactPerSec(dat: Datum[]): number {
   let totalSecondSpend = 0;
   let totalXidIncreased = 0;
   dat.forEach((val, i, arr) => {
-    if (i == 0) {
+    if (i === 0) {
       return;
     }
     const currCollectedAt = val[0];
