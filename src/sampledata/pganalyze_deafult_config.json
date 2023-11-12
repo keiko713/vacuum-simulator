@@ -1,0 +1,12 @@
+{
+    "autovacuumVacuumThreshold": 50,
+    "autovacuumVacuumScaleFactor": 0.1,
+    "autovacuumFreezeMaxAge": 400000000,
+    "autovacuumFreezeMinAge": 50000000,
+    "vacuumFreezeTableAge": 150000000,
+    "autovacuumMultixactFreezeMaxAge": 400000000,
+    "autovacuumMultixactFreezeMinAge": 5000000,
+    "vacuumMultixactFreezeTableAge": 150000000,
+    "autovacuumVacuumInsertThreshold": 1000,
+    "autovacuumVacuumInsertScaleFactor": 0.2
+}

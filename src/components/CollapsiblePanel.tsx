@@ -15,7 +15,7 @@ const CollapsiblePanel: React.FunctionComponent<{
   const titleBorder = collapsed ? "" : "border-b";
   return (
     <div className="border mb-2">
-      <div onClick={handleTogglePanel} className={`p-2 ${titleBorder}`}>
+      <div onClick={handleTogglePanel} className={`p-2 bg-[#F2F0E5] ${titleBorder}`}>
         <FontAwesomeIcon
           icon={collapsed ? faAngleRight : faAngleDown}
           className="pr-2"
