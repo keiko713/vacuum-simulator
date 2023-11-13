@@ -5,7 +5,6 @@ import {
   AutovacuumCount,
   SimulationData,
   TableStatsType,
-  TableVacuumSettingsType,
 } from "./simulateVacuum";
 
 export const DeadRowsChart: React.FunctionComponent<{
