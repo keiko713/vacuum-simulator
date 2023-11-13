@@ -31,7 +31,7 @@ export type SimulationData = {
   insertRowsThresholdData: Datum[];
 };
 
-type TableVacuumSettingsType = {
+export type TableVacuumSettingsType = {
   autovacuumVacuumThreshold: number;
   autovacuumVacuumScaleFactor: number;
   autovacuumFreezeMaxAge: number;
@@ -55,7 +55,8 @@ export const simulateVacuum = (
   let currMinmxidAge = tableStats.minmxidAge[0][1];
   let currDeadRows = tableStats.deadTuples[0][1];
   let currInsertRows = tableStats.insertsSinceVacuum[0][1];
-  const runInsertsVacuum = (tableVacuumSettings.autovacuumVacuumInsertThreshold ?? -1) !== -1;
+  const runInsertsVacuum =
+    (tableVacuumSettings.autovacuumVacuumInsertThreshold ?? -1) !== -1;
 
   const simulationData: SimulationData = {
     totalAutovacuumCount: {

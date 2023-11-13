@@ -28,6 +28,8 @@ export type SampleTableName =
 const PageContent: React.FunctionComponent<{}> = () => {
   const [sampleTableName, setSampleTableName] =
     useState<SampleTableName>("issue_references");
+  const [showOriginal, setShowOriginal] = useState<boolean>(true);
+
   const sampleTable = getSampleTable(sampleTableName);
   const tableStats = {
     deadTuples: sampleTable.tableStats.deadTuples as Datum[],
@@ -41,6 +43,7 @@ const PageContent: React.FunctionComponent<{}> = () => {
     insertsSinceVacuum: sampleTable.tableStats.insertsSinceVacuum as Datum[],
   };
   const simulationResult = simulateVacuum(tableStats, defaultConfig);
+
   return (
     <div className="max-w-8xl mx-auto">
       <div className="py-4 px-8 lg:px-16">
@@ -48,27 +51,29 @@ const PageContent: React.FunctionComponent<{}> = () => {
           <ConfigPanel
             sampleTableName={sampleTableName}
             setSampleTable={setSampleTableName}
+            showOriginal={showOriginal}
+            setShowOriginal={setShowOriginal}
           />
         </CollapsiblePanel>
         <CollapsiblePanel
           title="VACUUM triggered by: dead rows"
           icon={faCircleXmark}
         >
-          <DeadRowsChart tableStats={tableStats} />
+          {showOriginal && <DeadRowsChart tableStats={tableStats} />}
           <DeadRowsSimulationChart simulationResult={simulationResult} />
         </CollapsiblePanel>
         <CollapsiblePanel
           title="VACUUM triggered by: freeze age"
           icon={faSnowflake}
         >
-          <FreezeAgeChart tableStats={tableStats} />
+          {showOriginal && <FreezeAgeChart tableStats={tableStats} />}
           <FreezeAgeSimulationChart simulationResult={simulationResult} />
         </CollapsiblePanel>
         <CollapsiblePanel
           title="VACUUM triggered by: inserts"
           icon={faCirclePlus}
         >
-          <InsertsChart tableStats={tableStats} />
+          {showOriginal && <InsertsChart tableStats={tableStats} />}
           <InsertsSimulationChart simulationResult={simulationResult} />
         </CollapsiblePanel>
       </div>
@@ -79,7 +84,9 @@ const PageContent: React.FunctionComponent<{}> = () => {
 const ConfigPanel: React.FunctionComponent<{
   sampleTableName: SampleTableName;
   setSampleTable: React.Dispatch<React.SetStateAction<SampleTableName>>;
-}> = ({ sampleTableName, setSampleTable }) => {
+  showOriginal: boolean;
+  setShowOriginal: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ sampleTableName, setSampleTable, showOriginal, setShowOriginal }) => {
   return (
     <div className="p-4">
       <div className="flex items-center">
@@ -89,13 +96,22 @@ const ConfigPanel: React.FunctionComponent<{
           value={sampleTableName}
           className="bg-[#F2F0E5] border border-[#E6E4D9] rounded block w-[300px] p-2"
         >
-          {" "}
           <option value="issue_references">Table with dead rows VACUUMs</option>
           <option value="schema_table_stats_35d">
             Table with inserts VACUUMs
           </option>
           <option value="servers">Table with too many VACUUMs</option>
         </select>
+        <div className="px-3">Show Charts of Original Data:</div>
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={showOriginal}
+            className="sr-only peer"
+            onChange={() => setShowOriginal(!showOriginal)}
+          />
+          <div className="w-11 h-6 bg-[#6F6E69] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4385BE]"></div>
+        </label>
       </div>
     </div>
   );

@@ -35,8 +35,9 @@ const PageHeader: React.FunctionComponent<{
                 <a
                   href="https://github.com/keiko713/vacuum-simulator"
                   className="ml-6 block hover:text-slate-600"
+                  target="_blank"
                 >
-                  <FontAwesomeIcon icon={faGithub}/>
+                  <FontAwesomeIcon icon={faGithub} />
                 </a>
                 <button
                   onClick={() => setOpenFunction(true)}
