@@ -17,8 +17,14 @@ import { useState } from "react";
 import issueReferencesJson from "../sampledata/issue_references.json";
 import serversJson from "../sampledata/servers.json";
 import schemaTableStats35dJson from "../sampledata/schema_table_stats_35d.json";
-import { Datum, simulateVacuum } from "./simulateVacuum";
+import {
+  Datum,
+  TableVacuumSettingsType,
+  simulateVacuum,
+} from "./simulateVacuum";
 import defaultConfig from "../sampledata/pganalyze_deafult_config.json";
+import { ConfigNameType, configDocs15 } from "./configDocs";
+import RangeInput from "./RangeInput";
 
 export type SampleTableName =
   | "issue_references"
@@ -28,7 +34,9 @@ export type SampleTableName =
 const PageContent: React.FunctionComponent<{}> = () => {
   const [sampleTableName, setSampleTableName] =
     useState<SampleTableName>("issue_references");
-  const [showOriginal, setShowOriginal] = useState<boolean>(true);
+  const [showOriginal, setShowOriginal] = useState<boolean>(false);
+  const [simulationConfigSettings, setSimulationConfigSettings] =
+    useState<TableVacuumSettingsType>({ ...defaultConfig });
 
   const sampleTable = getSampleTable(sampleTableName);
   const tableStats = {
@@ -42,7 +50,7 @@ const PageContent: React.FunctionComponent<{}> = () => {
     hotUpdates: sampleTable.tableStats.hotUpdates as Datum[],
     insertsSinceVacuum: sampleTable.tableStats.insertsSinceVacuum as Datum[],
   };
-  const simulationResult = simulateVacuum(tableStats, defaultConfig);
+  const simulationResult = simulateVacuum(tableStats, simulationConfigSettings);
 
   return (
     <div className="max-w-8xl mx-auto">
@@ -59,6 +67,10 @@ const PageContent: React.FunctionComponent<{}> = () => {
           title="VACUUM triggered by: dead rows"
           icon={faCircleXmark}
         >
+          <DeadRowsConfigPanel
+            simulationConfigSettings={simulationConfigSettings}
+            setSimulationConfigSettings={setSimulationConfigSettings}
+          />
           {showOriginal && <DeadRowsChart tableStats={tableStats} />}
           <DeadRowsSimulationChart simulationResult={simulationResult} />
         </CollapsiblePanel>
@@ -66,6 +78,10 @@ const PageContent: React.FunctionComponent<{}> = () => {
           title="VACUUM triggered by: freeze age"
           icon={faSnowflake}
         >
+          <FreezeAgeConfigPanel
+            simulationConfigSettings={simulationConfigSettings}
+            setSimulationConfigSettings={setSimulationConfigSettings}
+          />
           {showOriginal && <FreezeAgeChart tableStats={tableStats} />}
           <FreezeAgeSimulationChart simulationResult={simulationResult} />
         </CollapsiblePanel>
@@ -73,6 +89,10 @@ const PageContent: React.FunctionComponent<{}> = () => {
           title="VACUUM triggered by: inserts"
           icon={faCirclePlus}
         >
+          <InsertsConfigPanel
+            simulationConfigSettings={simulationConfigSettings}
+            setSimulationConfigSettings={setSimulationConfigSettings}
+          />
           {showOriginal && <InsertsChart tableStats={tableStats} />}
           <InsertsSimulationChart simulationResult={simulationResult} />
         </CollapsiblePanel>
@@ -112,6 +132,157 @@ const ConfigPanel: React.FunctionComponent<{
           />
           <div className="w-11 h-6 bg-[#6F6E69] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4385BE]"></div>
         </label>
+      </div>
+    </div>
+  );
+};
+
+const DeadRowsConfigPanel: React.FunctionComponent<{
+  simulationConfigSettings: TableVacuumSettingsType;
+  setSimulationConfigSettings: React.Dispatch<
+    React.SetStateAction<TableVacuumSettingsType>
+  >;
+}> = ({ simulationConfigSettings, setSimulationConfigSettings }) => {
+  return (
+    <div className="p-4 grid grid-cols-2 gap-4">
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="autovacuumVacuumThreshold"
+      />
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="autovacuumVacuumScaleFactor"
+      />
+    </div>
+  );
+};
+
+const FreezeAgeConfigPanel: React.FunctionComponent<{
+  simulationConfigSettings: TableVacuumSettingsType;
+  setSimulationConfigSettings: React.Dispatch<
+    React.SetStateAction<TableVacuumSettingsType>
+  >;
+}> = ({ simulationConfigSettings, setSimulationConfigSettings }) => {
+  return (
+    <div className="p-4 grid grid-cols-2 gap-4">
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="autovacuumFreezeMaxAge"
+      />
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="vacuumFreezeMinAge"
+      />
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="vacuumFreezeTableAge"
+      />
+    </div>
+  );
+};
+
+const InsertsConfigPanel: React.FunctionComponent<{
+  simulationConfigSettings: TableVacuumSettingsType;
+  setSimulationConfigSettings: React.Dispatch<
+    React.SetStateAction<TableVacuumSettingsType>
+  >;
+}> = ({ simulationConfigSettings, setSimulationConfigSettings }) => {
+  return (
+    <div className="p-4 grid grid-cols-2 gap-4">
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="autovacuumVacuumInsertThreshold"
+      />
+      <ConfigurableConfigSetting
+        simulationConfigSettings={simulationConfigSettings}
+        setSimulationConfigSettings={setSimulationConfigSettings}
+        name="autovacuumVacuumInsertScaleFactor"
+      />
+    </div>
+  );
+};
+
+const ConfigurableConfigSetting: React.FunctionComponent<{
+  simulationConfigSettings: TableVacuumSettingsType;
+  setSimulationConfigSettings: React.Dispatch<
+    React.SetStateAction<TableVacuumSettingsType>
+  >;
+  name: ConfigNameType;
+}> = ({ simulationConfigSettings, setSimulationConfigSettings, name }) => {
+  const configDetail = configDocs15[name];
+  const floatingPoint = configDetail.type === "floating point";
+  const step = floatingPoint ? 0.01 : 1000; // TODO think better step
+  // TODO think better max for range input
+  return (
+    <div className="border rounded p-2 bg-white text-[14px]">
+      <div className="font-semibold pb-2 grid grid-cols-2">
+        <code>{configDetail.name}</code>
+        <div className="text-right">
+          {floatingPoint
+            ? simulationConfigSettings[name].toLocaleString("en-US", {
+                style: "percent",
+                minimumFractionDigits: 1,
+              })
+            : simulationConfigSettings[name].toLocaleString("en-US")}
+        </div>
+      </div>
+      <div className="pb-2">
+        <RangeInput
+          value={simulationConfigSettings[name]}
+          id={configDetail.name}
+          min={configDetail.min}
+          max={floatingPoint ? 1 : configDetail.max}
+          step={step}
+          onChange={(evt) => {
+            const newValue = Number(evt.currentTarget.value);
+            if (
+              !isNaN(newValue) &&
+              newValue >= configDetail.min &&
+              newValue <= configDetail.max
+            ) {
+              simulationConfigSettings[name] = newValue;
+              setSimulationConfigSettings({ ...simulationConfigSettings });
+            }
+          }}
+          className="w-full"
+        />
+        <div className="text-right">
+          <small>
+            MIN: {configDetail.min.toLocaleString("en-US")}, MAX:{" "}
+            {configDetail.max.toLocaleString("en-US")}{" "}
+            {floatingPoint &&
+              `(${configDetail.max.toLocaleString("en-US", {
+                style: "percent",
+              })})`}
+          </small>
+        </div>
+        <div>
+          <input
+            type="number"
+            className="w-full block p-2 border rounded"
+            value={simulationConfigSettings[name]}
+            min={configDetail.min}
+            max={configDetail.max}
+            step={step}
+            onChange={(evt) => {
+              const newValue = Number(evt.currentTarget.value);
+              if (
+                !isNaN(newValue) &&
+                newValue >= configDetail.min &&
+                newValue <= configDetail.max
+              ) {
+                simulationConfigSettings[name] = newValue;
+                setSimulationConfigSettings({ ...simulationConfigSettings });
+              }
+            }}
+          />
+        </div>
       </div>
     </div>
   );

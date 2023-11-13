@@ -25,8 +25,10 @@ export type SimulationData = {
   deadRowsThresholdData: Datum[];
   frozenxidAgeVacuumed: Datum[];
   freezeAgeThresholdData: Datum[];
+  tableFreezeAgeThresholdData: Datum[];
   minmxidAgeVacuumed: Datum[];
   minmxidAgeThresholdData: Datum[];
+  tableMinmxidAgeThresholdData: Datum[];
   insertRowsVacuumed: Datum[];
   insertRowsThresholdData: Datum[];
 };
@@ -35,10 +37,10 @@ export type TableVacuumSettingsType = {
   autovacuumVacuumThreshold: number;
   autovacuumVacuumScaleFactor: number;
   autovacuumFreezeMaxAge: number;
-  autovacuumFreezeMinAge: number;
+  vacuumFreezeMinAge: number;
   vacuumFreezeTableAge: number;
   autovacuumMultixactFreezeMaxAge: number;
-  autovacuumMultixactFreezeMinAge: number;
+  vacuumMultixactFreezeMinAge: number;
   vacuumMultixactFreezeTableAge: number;
   autovacuumVacuumInsertThreshold: number;
   autovacuumVacuumInsertScaleFactor: number;
@@ -69,8 +71,10 @@ export const simulateVacuum = (
     deadRowsThresholdData: [],
     frozenxidAgeVacuumed: [],
     freezeAgeThresholdData: [],
+    tableFreezeAgeThresholdData: [],
     minmxidAgeVacuumed: [],
     minmxidAgeThresholdData: [],
+    tableMinmxidAgeThresholdData: [],
     insertRowsVacuumed: [],
     insertRowsThresholdData: [],
   };
@@ -157,10 +161,18 @@ export const simulateVacuum = (
       collectedAt,
       tableVacuumSettings.autovacuumFreezeMaxAge,
     ]);
+    simulationData.tableFreezeAgeThresholdData.push([
+      collectedAt,
+      tableVacuumSettings.vacuumFreezeTableAge,
+    ]);
     simulationData.minmxidAgeVacuumed.push([collectedAt, currMinmxidAge]);
     simulationData.minmxidAgeThresholdData.push([
       collectedAt,
       tableVacuumSettings.autovacuumMultixactFreezeMaxAge,
+    ]);
+    simulationData.tableMinmxidAgeThresholdData.push([
+      collectedAt,
+      tableVacuumSettings.vacuumMultixactFreezeTableAge,
     ]);
     simulationData.insertRowsVacuumed.push([collectedAt, currInsertRows]);
     simulationData.insertRowsThresholdData.push([collectedAt, insertThreshold]);
@@ -184,11 +196,11 @@ export const simulateVacuum = (
       // Only reset up to min age
       currFrozenxidAge = Math.min(
         currFrozenxidAge,
-        tableVacuumSettings.autovacuumFreezeMinAge,
+        tableVacuumSettings.vacuumFreezeMinAge,
       );
       currMinmxidAge = Math.min(
         currMinmxidAge,
-        tableVacuumSettings.autovacuumMultixactFreezeMinAge,
+        tableVacuumSettings.vacuumMultixactFreezeMinAge,
       );
     }
     currDeadRows = 0;

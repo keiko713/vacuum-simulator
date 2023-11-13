@@ -36,6 +36,7 @@ const PageHeader: React.FunctionComponent<{
                   href="https://github.com/keiko713/vacuum-simulator"
                   className="ml-6 block hover:text-slate-600"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <FontAwesomeIcon icon={faGithub} />
                 </a>

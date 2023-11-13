@@ -5,6 +5,7 @@ import {
   AutovacuumCount,
   SimulationData,
   TableStatsType,
+  TableVacuumSettingsType,
 } from "./simulateVacuum";
 
 export const DeadRowsChart: React.FunctionComponent<{
@@ -73,10 +74,7 @@ export const DeadRowsSimulationChart: React.FunctionComponent<{
     },
   );
 
-  const data: ChartData<"line", Point[]> = {
-    datasets: datasets,
-  };
-  return <TimeSeriesChart data={data} />;
+  return <TimeSeriesChart data={{ datasets: datasets }} />;
 };
 
 export const FreezeAgeChart: React.FunctionComponent<{
@@ -133,6 +131,7 @@ export const FreezeAgeSimulationChart: React.FunctionComponent<{
 }> = ({ simulationResult: result }) => {
   const frozenxidAge = result.frozenxidAgeVacuumed;
   const threshold = result.freezeAgeThresholdData;
+  const tableFreezeThreshold = result.tableFreezeAgeThresholdData;
   const datasets = vacuumDataset(result.totalAutovacuumCount);
   datasets.push(
     {
@@ -147,11 +146,8 @@ export const FreezeAgeSimulationChart: React.FunctionComponent<{
     },
     {
       label: "Table Freeze Age (trigger aggressive)",
-      data: frozenxidAge.map((val) => {
-        return {
-          x: val[0] * 1000,
-          y: defaultConfig.vacuumFreezeTableAge,
-        } as Point;
+      data: tableFreezeThreshold.map((val) => {
+        return { x: val[0] * 1000, y: val[1] } as Point;
       }),
       borderColor: "#D0A215",
       backgroundColor: "#FFFCF0",
@@ -171,10 +167,7 @@ export const FreezeAgeSimulationChart: React.FunctionComponent<{
     },
   );
 
-  const data: ChartData<"line", Point[]> = {
-    datasets: datasets,
-  };
-  return <TimeSeriesChart data={data} />;
+  return <TimeSeriesChart data={{ datasets: datasets }} />;
 };
 
 export const InsertsChart: React.FunctionComponent<{
@@ -244,10 +237,7 @@ export const InsertsSimulationChart: React.FunctionComponent<{
     },
   );
 
-  const data: ChartData<"line", Point[]> = {
-    datasets: datasets,
-  };
-  return <TimeSeriesChart data={data} />;
+  return <TimeSeriesChart data={{ datasets: datasets }} />;
 };
 
 const vacuumDataset = (

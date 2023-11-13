@@ -17,3 +17,115 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@layer components {
+  /* For slider (input[type="range"]) */
+  .slider {
+    height: 1em;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .slider:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* webkit */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+    background: #337ab7;
+    border: none;
+    margin-top: calc(0.5em * 0.5 - 1em * 0.5);
+    box-shadow: none;
+  }
+
+  .slider::-webkit-slider-runnable-track {
+    height: 0.5em;
+    border: none;
+    border-radius: 0.25em;
+    background: #efefef;
+    box-shadow: none;
+  }
+
+  .slider:hover::-webkit-slider-thumb {
+    cursor: grab;
+  }
+
+  .slider:active::-webkit-slider-thumb {
+    cursor: grabbing;
+  }
+
+  /* mozilla */
+  .slider::-moz-range-thumb {
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+    background: #337ab7;
+    border: none;
+    box-shadow: none;
+    cursor: grab;
+  }
+
+  .slider:active::-moz-range-thumb {
+    cursor: grabbing;
+  }
+
+  .slider::-moz-range-track {
+    height: 0.5em;
+    border: none;
+    border-radius: 0.25em;
+    background: #efefef;
+    box-shadow: none;
+  }
+
+  .slider::-moz-range-progress {
+    background: #76b5eb;
+    height: 0.5em;
+    border: none;
+    border-radius: 0.25em;
+  }
+
+  /* ms */
+  .slider::-ms-fill-upper {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .slider::-ms-fill-lower {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .slider::-ms-thumb {
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+    background: #337ab7;
+    border: none;
+    box-shadow: none;
+    margin-top: 0;
+    box-sizing: border-box;
+  }
+
+  .slider::-ms-track {
+    height: 0.5em;
+    border-radius: 0.25em;
+    background: #efefef;
+    border: none;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+
+  .slider::-ms-fill-lower {
+    height: 0.5em;
+    border-radius: 0.25em 0 0 0.25em;
+    margin: -undefined 0 -undefined -undefined;
+    background: #76b5eb;
+    border: none;
+    border-right-width: 0;
+  }
+}

@@ -33,24 +33,28 @@ const TimeSeriesChart: React.FunctionComponent<Props> = (props) => {
         },
       },
       y: {
-        ticks: {maxTicksLimit: 5}
-      }
+        ticks: { maxTicksLimit: 5 },
+      },
     },
     elements: {
       point: {
         radius: 0,
       },
     },
-    aspectRatio:4,
+    aspectRatio: 4,
     plugins: {
       legend: {
         labels: {
-          boxHeight: 0
-        }
-      }
-    }
+          boxHeight: 0,
+        },
+      },
+    },
   };
-  return <div className="p-4"><Line data={data} options={options} /></div>;
+  return (
+    <div className="p-4">
+      <Line data={data} options={options} />
+    </div>
+  );
 };
 
 export default TimeSeriesChart;
