@@ -114,15 +114,18 @@ export const simulateVacuum = (
       if (currDeadTuples - prevDeadTuples > 0) {
         deadRows = currDeadTuples - prevDeadTuples;
       }
-      currDeadRows = currDeadRows ? currDeadRows + deadRows : deadRows;
-      currInsertRows = currInsertRows ? currInsertRows + inserts : inserts;
+      currDeadRows = currDeadRows != null ? currDeadRows + deadRows : deadRows;
+      currInsertRows =
+        currInsertRows != null ? currInsertRows + inserts : inserts;
       currTotalRow = currLiveTuples;
-      currFrozenxidAge = currFrozenxidAge
-        ? currFrozenxidAge + xactPerSec * collectDiffInSec
-        : (tableStats.frozenxidAge[i][1] as number);
-      currMinmxidAge = currMinmxidAge
-        ? currMinmxidAge + multixactPerSec * collectDiffInSec
-        : (tableStats.minmxidAge[i][1] as number);
+      currFrozenxidAge =
+        currFrozenxidAge != null
+          ? currFrozenxidAge + xactPerSec * collectDiffInSec
+          : (tableStats.frozenxidAge[i][1] as number);
+      currMinmxidAge =
+        currMinmxidAge != null
+          ? currMinmxidAge + multixactPerSec * collectDiffInSec
+          : (tableStats.minmxidAge[i][1] as number);
     }
 
     // There is no condition that i == 0 and any of these curr rows are null
