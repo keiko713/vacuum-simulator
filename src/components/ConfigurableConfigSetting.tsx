@@ -20,7 +20,7 @@ const ConfigurableConfigSetting: React.FunctionComponent<{
   const floatingPoint = configDetail.type === "floating point";
   const config = rangeConfig(totalStats)[name];
   return (
-    <div className="border rounded p-2 bg-white text-[14px]">
+    <div className="border rounded p-4 bg-white text-[14px]">
       <div className="font-semibold pb-2 grid grid-cols-2">
         <code>{configDetail.name}</code>
         <div className="text-right">
