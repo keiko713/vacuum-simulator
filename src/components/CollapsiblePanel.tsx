@@ -7,8 +7,9 @@ const CollapsiblePanel: React.FunctionComponent<{
   children: React.ReactNode;
   title: string;
   icon?: IconProp;
-}> = ({ children, title, icon }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  defaultCollapsed?: boolean;
+}> = ({ children, title, icon, defaultCollapsed }) => {
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
   function handleTogglePanel() {
     setCollapsed(!collapsed);
   }

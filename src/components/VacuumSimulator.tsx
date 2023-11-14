@@ -2,6 +2,7 @@ import CollapsiblePanel from "./CollapsiblePanel";
 import {
   faCirclePlus,
   faCircleXmark,
+  faMicroscope,
   faSnowflake,
   faWrench,
 } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +11,7 @@ import {
   DeadRowsSimulationChart,
   FreezeAgeChart,
   FreezeAgeSimulationChart,
+  InputDataStatsChart,
   InsertsChart,
   InsertsSimulationChart,
 } from "./Charts";
@@ -106,6 +108,9 @@ const VacuumSimulator: React.FunctionComponent<{}> = () => {
         </div>
         {showOriginal && <InsertsChart tableStats={tableStats} />}
         <InsertsSimulationChart simulationResult={simulationResult} />
+      </CollapsiblePanel>
+      <CollapsiblePanel title="Input data stats" icon={faMicroscope} defaultCollapsed>
+        <InputDataStatsChart tableStats={tableStats} />
       </CollapsiblePanel>
     </TotalStatsForRangeContext.Provider>
   );

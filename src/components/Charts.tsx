@@ -239,6 +239,57 @@ export const InsertsSimulationChart: React.FunctionComponent<{
   return <TimeSeriesChart data={{ datasets: datasets }} />;
 };
 
+export const InputDataStatsChart: React.FunctionComponent<{
+  tableStats: TableStatsType;
+}> = ({ tableStats }) => {
+  const data: ChartData<"line", Point[]> = {
+    datasets: [
+      {
+        label: "Inserts",
+        data: tableStats.inserts.map((val) => {
+          return { x: val[0] * 1000, y: val[1] } as Point;
+        }),
+        borderColor: "#D14D41",
+        backgroundColor: "#D14D41",
+        fill: false,
+        borderWidth: 2,
+      },
+      {
+        label: "Updates",
+        data: tableStats.updates.map((val) => {
+          return { x: val[0] * 1000, y: val[1] } as Point;
+        }),
+        borderColor: "#D0A215",
+        backgroundColor: "#FFFCF0",
+        fill: false,
+        borderWidth: 2,
+      },
+      {
+        label: "HOT Updates",
+        data: tableStats.hotUpdates.map((val) => {
+          return { x: val[0] * 1000, y: val[1] } as Point;
+        }),
+        borderColor: "#D0A215",
+        backgroundColor: "#FFFCF0",
+        fill: false,
+        borderWidth: 2,
+        borderDash: [2, 5],
+      },
+      {
+        label: "Deletes",
+        data: tableStats.deletes.map((val) => {
+          return { x: val[0] * 1000, y: val[1] } as Point;
+        }),
+        borderColor: "#CECDC3",
+        backgroundColor: "#CECDC3",
+        fill: false,
+        borderWidth: 2,
+      },
+    ],
+  };
+  return <TimeSeriesChart data={data} />;
+};
+
 const vacuumDataset = (
   autovacuumCount: AutovacuumCount,
 ): ChartDataset<"line", Point[]>[] => {
