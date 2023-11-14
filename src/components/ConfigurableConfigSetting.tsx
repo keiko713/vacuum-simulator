@@ -1,44 +1,44 @@
-import { TableVacuumSettingsType } from "./simulateVacuum";
 import { ConfigNameType, configDocs15 } from "./configDocs";
 import RangeInput from "./RangeInput";
-
-export type TotalStats = {
-    totalInserts: number;
-    totalUpdates: number;
-    totalDeletes: number;
-}
+import {
+  SimulationConfigSettingsContext,
+  SimulationConfigSetContext,
+} from "./SimulationConfigSettingsContext";
+import { useContext } from "react";
+import {
+  TotalStatsForRangeContext,
+  TotalStatsType,
+} from "./TotalStatsForRangeContext";
 
 const ConfigurableConfigSetting: React.FunctionComponent<{
-  simulationConfigSettings: TableVacuumSettingsType;
-  setSimulationConfigSettings: React.Dispatch<
-    React.SetStateAction<TableVacuumSettingsType>
-  >;
   name: ConfigNameType;
-  totalStats: TotalStats;
-}> = ({ simulationConfigSettings, setSimulationConfigSettings, name, totalStats }) => {
+}> = ({ name }) => {
+  const configSettings = useContext(SimulationConfigSettingsContext);
+  const setConfigSettings = useContext(SimulationConfigSetContext);
+  const totalStats = useContext(TotalStatsForRangeContext);
   const configDetail = configDocs15[name];
   const floatingPoint = configDetail.type === "floating point";
-  const config = rangeConfig(totalStats)[name];
+  const rangeConfig = generateRangeConfig(totalStats)[name];
   return (
     <div className="border rounded p-4 bg-white text-[14px]">
       <div className="font-semibold pb-2 grid grid-cols-2">
         <code>{configDetail.name}</code>
         <div className="text-right">
           {floatingPoint
-            ? simulationConfigSettings[name].toLocaleString("en-US", {
+            ? configSettings[name].toLocaleString("en-US", {
                 style: "percent",
                 minimumFractionDigits: 1,
               })
-            : simulationConfigSettings[name].toLocaleString("en-US")}
+            : configSettings[name].toLocaleString("en-US")}
         </div>
       </div>
       <div className="pb-2">
         <RangeInput
-          value={simulationConfigSettings[name]}
+          value={configSettings[name]}
           id={configDetail.name}
           min={configDetail.min === -1 ? 0 : configDetail.min}
-          max={config.max ?? configDetail.max}
-          step={config.step}
+          max={rangeConfig.max ?? configDetail.max}
+          step={rangeConfig.step}
           onChange={(evt) => {
             const newValue = Number(evt.currentTarget.value);
             if (
@@ -46,8 +46,8 @@ const ConfigurableConfigSetting: React.FunctionComponent<{
               newValue >= configDetail.min &&
               newValue <= configDetail.max
             ) {
-              simulationConfigSettings[name] = newValue;
-              setSimulationConfigSettings({ ...simulationConfigSettings });
+              configSettings[name] = newValue;
+              setConfigSettings({ ...configSettings });
             }
           }}
           className="w-full"
@@ -66,10 +66,10 @@ const ConfigurableConfigSetting: React.FunctionComponent<{
           <input
             type="number"
             className="w-full block p-2 border rounded"
-            value={simulationConfigSettings[name]}
+            value={configSettings[name]}
             min={configDetail.min}
             max={configDetail.max}
-            step={config.step}
+            step={rangeConfig.step}
             onChange={(evt) => {
               const newValue = Number(evt.currentTarget.value);
               if (
@@ -77,8 +77,8 @@ const ConfigurableConfigSetting: React.FunctionComponent<{
                 newValue >= configDetail.min &&
                 newValue <= configDetail.max
               ) {
-                simulationConfigSettings[name] = newValue;
-                setSimulationConfigSettings({ ...simulationConfigSettings });
+                configSettings[name] = newValue;
+                setConfigSettings({ ...configSettings });
               }
             }}
           />
@@ -88,61 +88,61 @@ const ConfigurableConfigSetting: React.FunctionComponent<{
   );
 };
 
-const rangeConfig = (totalStats: TotalStats) => {
-    return {
-        autovacuumVacuumThreshold: {
-            ...findMaxAndStep(totalStats.totalUpdates + totalStats.totalDeletes),
-        },
-        autovacuumVacuumScaleFactor: {
-            max: 1,
-            step: 0.01
-        },
-        autovacuumFreezeMaxAge: {
-            max: 1_000_000_000,
-            step: 100_000,
-        },
-        vacuumFreezeMinAge: {
-            max: 100_000_000,
-            step: 100_000,
-        },
-        vacuumFreezeTableAge: {
-            max: 1_000_000_000,
-            step: 100_000,
-        },
-        autovacuumMultixactFreezeMaxAge: {
-            max: 1_000_000_000,
-            step: 100_000,
-        },
-        vacuumMultixactFreezeMinAge: {
-            max: 100_000_000,
-            step: 100_000,
-        },
-        vacuumMultixactFreezeTableAge: {
-            max: 1_000_000_000,
-            step: 100_000,
-        },
-        autovacuumVacuumInsertThreshold: {
-            ...findMaxAndStep(totalStats.totalInserts)
-        },
-        autovacuumVacuumInsertScaleFactor: {
-            max: 1,
-            step: 0.01
-        }
-      }
-}
+const generateRangeConfig = (totalStats: TotalStatsType) => {
+  return {
+    autovacuumVacuumThreshold: {
+      ...findMaxAndStep(totalStats.totalUpdates + totalStats.totalDeletes),
+    },
+    autovacuumVacuumScaleFactor: {
+      max: 1,
+      step: 0.01,
+    },
+    autovacuumFreezeMaxAge: {
+      max: 1_000_000_000,
+      step: 100_000,
+    },
+    vacuumFreezeMinAge: {
+      max: 100_000_000,
+      step: 100_000,
+    },
+    vacuumFreezeTableAge: {
+      max: 1_000_000_000,
+      step: 100_000,
+    },
+    autovacuumMultixactFreezeMaxAge: {
+      max: 1_000_000_000,
+      step: 100_000,
+    },
+    vacuumMultixactFreezeMinAge: {
+      max: 100_000_000,
+      step: 100_000,
+    },
+    vacuumMultixactFreezeTableAge: {
+      max: 1_000_000_000,
+      step: 100_000,
+    },
+    autovacuumVacuumInsertThreshold: {
+      ...findMaxAndStep(totalStats.totalInserts),
+    },
+    autovacuumVacuumInsertScaleFactor: {
+      max: 1,
+      step: 0.01,
+    },
+  };
+};
 
 const findMaxAndStep = (total: number) => {
-    // set minimum max as 1000
-    let max = 1000
-    if (total > 1000) {
-        const totalString = total.toString();
-        const firstDigit = parseInt(totalString[0], 10);
-        max = (firstDigit + 1) * Math.pow(10, totalString.length - 1);
-    }
-    return {
-        max: max,
-        step: max / 100
-    }
-}
+  // set minimum max as 1000
+  let max = 1000;
+  if (total > 1000) {
+    const totalString = total.toString();
+    const firstDigit = parseInt(totalString[0], 10);
+    max = (firstDigit + 1) * Math.pow(10, totalString.length - 1);
+  }
+  return {
+    max: max,
+    step: max / 100,
+  };
+};
 
 export default ConfigurableConfigSetting;
