@@ -1,6 +1,6 @@
 import "chart.js/auto";
 import "chartjs-adapter-moment";
-import { ChartData, ChartOptions } from "chart.js";
+import { ChartData, ChartOptions, TooltipItem } from "chart.js";
 import React from "react";
 
 import { Line } from "react-chartjs-2";
@@ -11,6 +11,13 @@ export type Props = {
 
 const TimeSeriesChart: React.FunctionComponent<Props> = (props) => {
   const { data } = props;
+
+  const tooltipLabel = (tooltipItem: TooltipItem<"line">) => {
+    const vacuumLabel = tooltipItem.dataset.label?.endsWith("VACUUM");
+    return vacuumLabel
+      ? ` ${tooltipItem.dataset.label}`
+      : ` ${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}`;
+  };
 
   const options: ChartOptions<"line"> = {
     responsive: true,
@@ -46,6 +53,11 @@ const TimeSeriesChart: React.FunctionComponent<Props> = (props) => {
       legend: {
         labels: {
           boxHeight: 0,
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: tooltipLabel,
         },
       },
     },

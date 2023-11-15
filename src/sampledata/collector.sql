@@ -20,4 +20,4 @@ WHERE c.oid = 11990219; -- update oid to the oid of the table that you want to m
 -- tuples only mode, do not show column names for subsequent runs
 \t
 -- collect stats for every 10 mins
-\watch
+\watch 600
