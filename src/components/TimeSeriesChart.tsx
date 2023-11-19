@@ -1,6 +1,6 @@
 import "chart.js/auto";
 import "chartjs-adapter-moment";
-import { ChartData, ChartOptions, TooltipItem } from "chart.js";
+import { ChartData, ChartOptions, LegendItem, TooltipItem } from "chart.js";
 import React from "react";
 
 import { Line } from "react-chartjs-2";
@@ -17,6 +17,10 @@ const TimeSeriesChart: React.FunctionComponent<Props> = (props) => {
     return vacuumLabel
       ? ` ${tooltipItem.dataset.label}`
       : ` ${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}`;
+  };
+
+  const filterVacuumDataset = (item: LegendItem, data: ChartData): boolean => {
+    return !item.text.endsWith("VACUUM");
   };
 
   const options: ChartOptions<"line"> = {
@@ -51,7 +55,9 @@ const TimeSeriesChart: React.FunctionComponent<Props> = (props) => {
     aspectRatio: 4,
     plugins: {
       legend: {
+        position: "bottom",
         labels: {
+          filter: filterVacuumDataset,
           boxHeight: 0,
         },
       },
