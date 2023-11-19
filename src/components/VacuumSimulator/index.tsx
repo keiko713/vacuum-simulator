@@ -20,12 +20,7 @@ import issueReferencesJson from "../../sampledata/issue_references.json";
 import serversJson from "../../sampledata/servers.json";
 import schemaTableStats35dJson from "../../sampledata/schema_table_stats_35d.json";
 import postgresRolesJson from "../../sampledata/postgres_roles.json";
-import {
-  AutovacuumCount,
-  Datum,
-  TableStatsType,
-  simulateVacuum,
-} from "./simulateVacuum";
+import { Datum, TableStatsType, simulateVacuum } from "./simulateVacuum";
 import ConfigAdjuster from "./ConfigAdjuster";
 import {
   SimulationConfigSetContext,
@@ -33,7 +28,7 @@ import {
 } from "./SimulationConfigSettingsContext";
 import { TotalStatsForRangeContext } from "./TotalStatsForRangeContext";
 import pganalyzeDefaultConfig from "../../sampledata/pganalyze_deafult_config.json";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SimulatorFooter from "./SimulatorFooter";
 
 export type SampleTableName =
   | "issue_references"
@@ -221,28 +216,6 @@ const ChartPanels: React.FunctionComponent<{
         autovacuumSummary={simulationResult.totalAutovacuumCount}
       />
     </TotalStatsForRangeContext.Provider>
-  );
-};
-
-const SimulatorFooter: React.FunctionComponent<{
-  autovacuumSummary: AutovacuumCount;
-}> = ({ autovacuumSummary }) => {
-  return (
-    <div className="sticky bottom-0 z-40 w-full backdrop-blur flex-none bg-[#F2F0E5] supports-backdrop-blur:bg-[#F2F0E5]/95">
-      <div className="max-w-8xl mx-auto">
-        <div className="py-4 px-8 mx-0 lg:px-16">
-          <div className="text-center">
-            {autovacuumSummary.total.length} autovacuums (triggered by{" "}
-            <FontAwesomeIcon icon={faCircleXmark} /> dead rows:{" "}
-            {autovacuumSummary.deadRows.length},{" "}
-            <FontAwesomeIcon icon={faSnowflake} /> freeze age:{" "}
-            {autovacuumSummary.freezing.length},{" "}
-            <FontAwesomeIcon icon={faCirclePlus} /> inserts:{" "}
-            {autovacuumSummary.inserts.length})
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 
