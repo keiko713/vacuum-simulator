@@ -193,7 +193,7 @@ export const InsertsChart: React.FunctionComponent<{
         borderWidth: 2,
       },
       {
-        label: "Dead Tuples",
+        label: "Inserts",
         fill: true,
         data: inserts.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
@@ -225,7 +225,7 @@ export const InsertsSimulationChart: React.FunctionComponent<{
       borderWidth: 2,
     },
     {
-      label: "Dead Tuples",
+      label: "Inserts",
       fill: true,
       data: inserts.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;

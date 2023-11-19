@@ -4,29 +4,41 @@ VACUUM Simulator lets you tweak autovacuum settings to learn the relationship
 between Postgres configuration settings and autovacuum patterns.
 It also helps you find better autovacuum settings for the table.
 
+## Deployment
+
+Currently deployed on Netlify with a default deploy option.
+
+- [https://vacuum-simulator.netlify.app/](https://vacuum-simulator.netlify.app/)
+
+### Add a new sample table stats json
+
+Sample table stats json files are located in `/src/sampledata`. You can add a
+new sample data over there. The sample data shape is _not the same_ as the one
+that you can collect using `/src/sampledata/collector.sql`, but it is the same
+as what you can obtain via pganalyze GraphQL.
+Notably, `deletes/inserts/updates/hotUpdates` are different as they are using
+per minute data with the pganalyze data, while `collector.sql` will be the
+cumulative value since the last stats reset.
+
+Once a sample json file is placed, update the following parts so that it can
+show up as a new sample table option in the UI:
+
+- `/src/components/VacuumSimulator/index.tsx`
+   - `SampleTableName`
+   - `getSampleTableStats`
+
 ## Development
 
-In the project directory, you can run:
+VACUUM Simulator is a simple React application, so you can use all usual tricks
+of React app.
 
-### `npm start`
+- `npm install` to install all dependencies
+- `npm start` to run the app in the development mode
+- `npm run build` to build the app for production to the `build` folder
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Acknowledgments
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+VACUUM Simulator is originally developed by [pganalyze](https://pganalyze.com),
+as a part of the [VACUUM Advisor](https://pganalyze.com/postgres-vacuum-advisor)
+feature. You can use the VACUUM Simulator in pganalyze too, using your actual
+database usage.
