@@ -19,6 +19,7 @@ import { useContext, useState } from "react";
 import issueReferencesJson from "../sampledata/issue_references.json";
 import serversJson from "../sampledata/servers.json";
 import schemaTableStats35dJson from "../sampledata/schema_table_stats_35d.json";
+import postgresRolesJson from "../sampledata/postgres_roles.json";
 import {
   AutovacuumCount,
   Datum,
@@ -36,6 +37,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type SampleTableName =
   | "issue_references"
+  | "postgres_roles"
   | "schema_table_stats_35d"
   | "servers";
 
@@ -101,6 +103,7 @@ const ConfigPanel: React.FunctionComponent<{
           className="bg-[#F2F0E5] border border-[#E6E4D9] rounded block w-[300px] p-2"
         >
           <option value="issue_references">Table with dead rows VACUUMs</option>
+          <option value="postgres_roles">Table with freeze age VACUUMs</option>
           <option value="schema_table_stats_35d">
             Table with inserts VACUUMs
           </option>
@@ -255,6 +258,8 @@ const getSampleTableStats = (tableName: SampleTableName) => {
       ? serversJson.tableStats
       : tableName === "schema_table_stats_35d"
       ? schemaTableStats35dJson.tableStats
+      : tableName === "postgres_roles"
+      ? postgresRolesJson.tableStats
       : issueReferencesJson.tableStats;
 
   return {
