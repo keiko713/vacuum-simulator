@@ -1,4 +1,4 @@
-import { SimulationConfigSettingsContextProvider } from "./SimulationConfigSettingsContext";
+import { SimulationConfigSettingsContextProvider } from "./VacuumSimulator/SimulationConfigSettingsContext";
 import VacuumSimulator from "./VacuumSimulator";
 
 const PageContent: React.FunctionComponent<{}> = () => {

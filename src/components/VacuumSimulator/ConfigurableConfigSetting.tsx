@@ -1,5 +1,5 @@
-import { ConfigNameType, configDocs15 } from "./configDocs";
-import RangeInput from "./RangeInput";
+import { ConfigNameType, configDocs15 } from "../configDocs";
+import RangeInput from "../RangeInput";
 import {
   SimulationConfigSettingsContext,
   SimulationConfigSetContext,

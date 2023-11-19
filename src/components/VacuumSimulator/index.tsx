@@ -1,4 +1,4 @@
-import CollapsiblePanel from "./CollapsiblePanel";
+import CollapsiblePanel from "../CollapsiblePanel";
 import {
   faCirclePlus,
   faCircleXmark,
@@ -16,10 +16,10 @@ import {
   InsertsSimulationChart,
 } from "./Charts";
 import { useContext, useState } from "react";
-import issueReferencesJson from "../sampledata/issue_references.json";
-import serversJson from "../sampledata/servers.json";
-import schemaTableStats35dJson from "../sampledata/schema_table_stats_35d.json";
-import postgresRolesJson from "../sampledata/postgres_roles.json";
+import issueReferencesJson from "../../sampledata/issue_references.json";
+import serversJson from "../../sampledata/servers.json";
+import schemaTableStats35dJson from "../../sampledata/schema_table_stats_35d.json";
+import postgresRolesJson from "../../sampledata/postgres_roles.json";
 import {
   AutovacuumCount,
   Datum,
@@ -32,7 +32,7 @@ import {
   SimulationConfigSettingsContext,
 } from "./SimulationConfigSettingsContext";
 import { TotalStatsForRangeContext } from "./TotalStatsForRangeContext";
-import pganalyzeDefaultConfig from "../sampledata/pganalyze_deafult_config.json";
+import pganalyzeDefaultConfig from "../../sampledata/pganalyze_deafult_config.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type SampleTableName =

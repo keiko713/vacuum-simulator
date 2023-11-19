@@ -1,5 +1,5 @@
-import TimeSeriesChart from "./TimeSeriesChart";
-import defaultConfig from "../sampledata/pganalyze_deafult_config.json";
+import TimeSeriesChart from "../TimeSeriesChart";
+import defaultConfig from "../../sampledata/pganalyze_deafult_config.json";
 import { ChartData, ChartDataset, Point } from "chart.js";
 import {
   AutovacuumCount,

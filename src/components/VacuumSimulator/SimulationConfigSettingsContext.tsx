@@ -1,5 +1,5 @@
 import { createContext, useCallback, useState } from "react";
-import defaultConfig from "../sampledata/pganalyze_deafult_config.json";
+import defaultConfig from "../../sampledata/pganalyze_deafult_config.json";
 import { TableVacuumSettingsType } from "./simulateVacuum";
 
 export const SimulationConfigSettingsContext =
