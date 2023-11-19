@@ -32,6 +32,27 @@ const HelpModal: React.FunctionComponent<{
           patterns. It also helps you find better autovacuum settings for the
           table.
         </div>
+        <div className="p-4">
+          VACUUM Simulator is originally developed by{" "}
+          <a
+            href="https://pganalyze.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="border-b border-[#100F0F]"
+          >
+            pganalyze
+          </a>
+          . A color scheme is inspired by{" "}
+          <a
+            href="https://stephango.com/flexoki"
+            target="_blank"
+            rel="noreferrer"
+            className="border-b border-[#100F0F]"
+          >
+            Flexoki
+          </a>
+          .
+        </div>
       </div>
     </div>
   );
