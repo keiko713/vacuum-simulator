@@ -26,7 +26,7 @@ import {
   TableStatsType,
   simulateVacuum,
 } from "./simulateVacuum";
-import ConfigurableConfigSetting from "./ConfigurableConfigSetting";
+import ConfigAdjuster from "./ConfigAdjuster";
 import {
   SimulationConfigSetContext,
   SimulationConfigSettingsContext,
@@ -176,8 +176,8 @@ const ChartPanels: React.FunctionComponent<{
       >
         {showConfigAdjuster && (
           <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ConfigurableConfigSetting name="autovacuumVacuumThreshold" />
-            <ConfigurableConfigSetting name="autovacuumVacuumScaleFactor" />
+            <ConfigAdjuster name="autovacuumVacuumThreshold" />
+            <ConfigAdjuster name="autovacuumVacuumScaleFactor" />
           </div>
         )}
         {showOriginal && <DeadRowsChart tableStats={inputStats} />}
@@ -189,9 +189,9 @@ const ChartPanels: React.FunctionComponent<{
       >
         {showConfigAdjuster && (
           <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ConfigurableConfigSetting name="autovacuumFreezeMaxAge" />
-            <ConfigurableConfigSetting name="vacuumFreezeMinAge" />
-            <ConfigurableConfigSetting name="vacuumFreezeTableAge" />
+            <ConfigAdjuster name="autovacuumFreezeMaxAge" />
+            <ConfigAdjuster name="vacuumFreezeMinAge" />
+            <ConfigAdjuster name="vacuumFreezeTableAge" />
           </div>
         )}
         {showOriginal && <FreezeAgeChart tableStats={inputStats} />}
@@ -203,8 +203,8 @@ const ChartPanels: React.FunctionComponent<{
       >
         {showConfigAdjuster && (
           <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ConfigurableConfigSetting name="autovacuumVacuumInsertThreshold" />
-            <ConfigurableConfigSetting name="autovacuumVacuumInsertScaleFactor" />
+            <ConfigAdjuster name="autovacuumVacuumInsertThreshold" />
+            <ConfigAdjuster name="autovacuumVacuumInsertScaleFactor" />
           </div>
         )}
         {showOriginal && <InsertsChart tableStats={inputStats} />}
