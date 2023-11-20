@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 src/sampledata_old
+vacuum_simulator_out.csv

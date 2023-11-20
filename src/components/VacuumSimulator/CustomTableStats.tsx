@@ -58,13 +58,16 @@ export const addCustomTableStats = (name: string, inputData: InputData[]) => {
     }
   });
 
+  const key = toSnakeCase(name);
   statsList.push({
-    key: toSnakeCase(name),
+    key: key,
     name: name,
     stats: tableStats,
   });
 
   localStorage.setItem(localStorageKey, JSON.stringify(statsList));
+
+  return key;
 };
 
 export const getCustomTableStatsList = () => {

@@ -3,7 +3,7 @@
 --  1. Change the hardcoded oid in WHERE clause to the table that you want to collect stats
 --  2. (Optionally) Update the file name, default is vacuum_simulator_out.csv
 --  3. (Optionally) Change the collect interval, default is every 10 minutes
---  4. Run this with psql, like `psql src/sampledata/collector.sql`
+--  4. Run this with psql, like `psql -f src/sampledata/collector.sql`
 
 -- silent whatever Postgres wants to say
 \set QUIET on

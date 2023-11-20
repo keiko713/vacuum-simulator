@@ -20,7 +20,9 @@ export type InputData = {
   insertsSinceVacuum: number;
 };
 
-const TableStatsUploader: React.FunctionComponent<{}> = () => {
+const TableStatsUploader: React.FunctionComponent<{
+  setTableName: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ setTableName }) => {
   const [inputData, setInputData] = useState<{
     tableName: string;
     file: File | null;
@@ -70,10 +72,12 @@ const TableStatsUploader: React.FunctionComponent<{}> = () => {
           });
           return;
         }
-        addCustomTableStats(inputData.tableName, result.data);
+        const key = addCustomTableStats(inputData.tableName, filteredData);
+        setTableName(key);
+        // TODO: somehow close the Dialog if possible
         setMessage({
           error: false,
-          message: `Upload table stats for "${inputData.tableName}" successful, please close the window.`,
+          message: "Successfully uploaded. Please close this window.",
         });
       },
       error: (e) => {

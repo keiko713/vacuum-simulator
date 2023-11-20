@@ -128,7 +128,7 @@ const ConfigPanel: React.FunctionComponent<{
           })}
         </select>
         <div className="px-3">
-          <TableStatsUploader />
+          <TableStatsUploader setTableName={setTableName} />
         </div>
         <div className="px-3">
           <button
