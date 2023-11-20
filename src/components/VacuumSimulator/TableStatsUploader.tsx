@@ -94,7 +94,7 @@ const TableStatsUploader: React.FunctionComponent<{
   };
 
   return (
-    <Dialog buttonLabel="Add new data" dialogHeader="Add new data with CSV">
+    <Dialog buttonLabel="Add new stats data" dialogHeader="Add new table stats data with CSV">
       <div>
         <div>
           You can provide table stats data of your table to let VACUUM Simulator

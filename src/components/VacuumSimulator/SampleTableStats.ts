@@ -4,6 +4,8 @@ import schemaTableStats35dJson from "../../sampledata/schema_table_stats_35d.jso
 import postgresRolesJson from "../../sampledata/postgres_roles.json";
 import { Datum, TableStatsType } from "./simulateVacuum";
 import { getCustomTableStatsList } from "./CustomTableStats";
+import pganalyzeDefaultConfig from "../../sampledata/pganalyze_deafult_config.json";
+import pg15DefaultConfig from "../../sampledata/deafult_config.json";
 
 export type TableData = {
   key: string;
@@ -39,7 +41,7 @@ const convertStatsToDatum = (
   };
 };
 
-const SampleTableList: TableData[] = [
+export const SampleTableList: TableData[] = [
   {
     key: "issue_references",
     name: "Table with dead rows VACUUMs",
@@ -70,4 +72,13 @@ export const getTableStats = (key: string) => {
   return [...SampleTableList, ...getCustomTableStatsList()].find((stats) => {
     return stats.key === key;
   });
+};
+
+export const getDefaultConfig = (tableName: string) => {
+  if (isSampleTableName(tableName)) {
+    // sample is based on pganalyze data
+    return pganalyzeDefaultConfig;
+  } else {
+    return pg15DefaultConfig;
+  }
 };

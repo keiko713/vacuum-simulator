@@ -4,7 +4,6 @@ import {
   faCircleXmark,
   faMicroscope,
   faSnowflake,
-  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   DeadRowsChart,
@@ -23,17 +22,17 @@ import {
   SimulationConfigSettingsContext,
 } from "./SimulationConfigSettingsContext";
 import { TotalStatsForRangeContext } from "./TotalStatsForRangeContext";
-import pganalyzeDefaultConfig from "../../sampledata/pganalyze_deafult_config.json";
-import pg15DefaultConfig from "../../sampledata/deafult_config.json";
 import SimulatorFooter from "./SimulatorFooter";
 import TableStatsUploader from "./TableStatsUploader";
 import { getCustomTableStatsList } from "./CustomTableStats";
-import { getTableStats, isSampleTableName } from "./SampleTableStats";
+import {
+  SampleTableList,
+  getDefaultConfig,
+  getTableStats,
+} from "./SampleTableStats";
 
 const VacuumSimulator: React.FunctionComponent<{}> = () => {
   const [tableName, setTableName] = useState<string>("issue_references");
-  const [showOriginal, setShowOriginal] = useState<boolean>(false);
-  const [showConfigAdjuster, setShowConfigAdjuster] = useState<boolean>(true);
   // It's not a bit not straight forward, but when the sample table is changed,
   // set a new default config based on that table name
   // TODO: update here, as it's actually causing the rendering error
@@ -43,22 +42,9 @@ const VacuumSimulator: React.FunctionComponent<{}> = () => {
 
   return (
     <>
-      <CollapsiblePanel title="Configuration" icon={faWrench}>
-        <ConfigPanel
-          tableName={tableName}
-          setTableName={setTableName}
-          showOriginal={showOriginal}
-          setShowOriginal={setShowOriginal}
-          showConfigAdjuster={showConfigAdjuster}
-          setShowConfigAdjuster={setShowConfigAdjuster}
-        />
-      </CollapsiblePanel>
+      <ConfigPanel tableName={tableName} setTableName={setTableName} />
       {inputStats && (
-        <ChartPanels
-          inputStats={inputStats}
-          showOriginal={showOriginal}
-          showConfigAdjuster={showConfigAdjuster}
-        />
+        <ChartPanels tableName={tableName} inputStats={inputStats} />
       )}
     </>
   );
@@ -67,44 +53,24 @@ const VacuumSimulator: React.FunctionComponent<{}> = () => {
 const ConfigPanel: React.FunctionComponent<{
   tableName: string;
   setTableName: React.Dispatch<React.SetStateAction<string>>;
-  showOriginal: boolean;
-  setShowOriginal: React.Dispatch<React.SetStateAction<boolean>>;
-  showConfigAdjuster: boolean;
-  setShowConfigAdjuster: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({
-  tableName,
-  setTableName,
-  showOriginal,
-  setShowOriginal,
-  showConfigAdjuster,
-  setShowConfigAdjuster,
-}) => {
-  const setSimulationConfig = useContext(SimulationConfigSetContext);
-  const resetToDefault = () => {
-    setSimulationConfig({ ...getDefaultConfig(tableName) });
-  };
+}> = ({ tableName, setTableName }) => {
   const customTableList = getCustomTableStatsList();
   return (
-    <div className="p-4">
-      <div className="flex items-center pb-4">
+    <div className="pb-4 px-2">
+      <div className="flex items-center">
         <div className="pr-3">Table:</div>
         <select
           onChange={(e) => setTableName(e.target.value)}
           value={tableName}
           className="border border-[#E6E4D9] rounded block w-[300px] p-2"
         >
-          <option key="issue_references" value="issue_references">
-            Table with dead rows VACUUMs
-          </option>
-          <option key="postgres_roles" value="postgres_roles">
-            Table with freeze age VACUUMs
-          </option>
-          <option key="schema_table_stats_35d" value="schema_table_stats_35d">
-            Table with inserts VACUUMs
-          </option>
-          <option key="servers" value="servers">
-            Table with too many VACUUMs
-          </option>
+          {SampleTableList.map((sampleTable) => {
+            return (
+              <option key={sampleTable.key} value={sampleTable.key}>
+                {sampleTable.name}
+              </option>
+            );
+          })}
           {customTableList.map((customTable) => {
             return (
               <option key={customTable.key} value={customTable.key}>
@@ -116,48 +82,19 @@ const ConfigPanel: React.FunctionComponent<{
         <div className="px-3">
           <TableStatsUploader setTableName={setTableName} />
         </div>
-        <div className="px-3">
-          <button
-            className="bg-[#100F0F] text-[#FFFCF0] hover:bg-[#3AA99F] rounded p-2"
-            onClick={resetToDefault}
-          >
-            Reset to default
-          </button>
-        </div>
-      </div>
-      <div className="flex items-center">
-        <div className="pr-3">Show Charts of Original Data:</div>
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={showOriginal}
-            className="sr-only peer"
-            onChange={() => setShowOriginal(!showOriginal)}
-          />
-          <div className="w-11 h-6 bg-[#6F6E69] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4385BE]"></div>
-        </label>
-        <div className="px-3">Show Config Adjusters:</div>
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={showConfigAdjuster}
-            className="sr-only peer"
-            onChange={() => setShowConfigAdjuster(!showConfigAdjuster)}
-          />
-          <div className="w-11 h-6 bg-[#6F6E69] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4385BE]"></div>
-        </label>
       </div>
     </div>
   );
 };
 
 const ChartPanels: React.FunctionComponent<{
+  tableName: string;
   inputStats: TableStatsType;
-  showOriginal: boolean;
-  showConfigAdjuster: boolean;
-}> = ({ inputStats, showOriginal, showConfigAdjuster }) => {
+}> = ({ tableName, inputStats }) => {
   const simulationConfig = useContext(SimulationConfigSettingsContext);
   const simulationResult = simulateVacuum(inputStats, simulationConfig);
+  const [showOriginal, setShowOriginal] = useState<boolean>(false);
+  const [showConfigAdjuster, setShowConfigAdjuster] = useState<boolean>(true);
 
   // Used for setting range input max/step
   const totalStats = {
@@ -225,19 +162,15 @@ const ChartPanels: React.FunctionComponent<{
         <InputDataStatsChart tableStats={inputStats} />
       </CollapsiblePanel>
       <SimulatorFooter
+        tableName={tableName}
         autovacuumSummary={simulationResult.totalAutovacuumCount}
+        showOriginal={showOriginal}
+        setShowOriginal={setShowOriginal}
+        showConfigAdjuster={showConfigAdjuster}
+        setShowConfigAdjuster={setShowConfigAdjuster}
       />
     </TotalStatsForRangeContext.Provider>
   );
-};
-
-const getDefaultConfig = (tableName: string) => {
-  if (isSampleTableName(tableName)) {
-    // sample is based on pganalyze data
-    return pganalyzeDefaultConfig;
-  } else {
-    return pg15DefaultConfig;
-  }
 };
 
 export default VacuumSimulator;

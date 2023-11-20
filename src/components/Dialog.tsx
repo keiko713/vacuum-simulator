@@ -42,7 +42,7 @@ export const Dialog: React.FunctionComponent<{
   const labelId = useId();
   const descriptionId = useId();
 
-  const buttonClassName =  buttonClass ?? "bg-[#100F0F] text-[#FFFCF0] hover:bg-[#3AA99F] rounded p-2"
+  const buttonClassName =  buttonClass ?? "bg-[#3AA99F] text-[#FFFCF0] hover:bg-[#24837B] rounded p-2"
 
   return (
     <>
