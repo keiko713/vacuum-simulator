@@ -5,6 +5,8 @@ import React, { MouseEvent } from "react";
 const HelpModal: React.FunctionComponent<{
   setOpenFunction: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setOpenFunction }) => {
+  // Unable to convert to Dialog sadly as this is rendered from PageHeader
+  // Maybe there is a way to convert this
   const outerClickHandler = (evt: MouseEvent<HTMLDivElement>) => {
     if (evt.target === evt.currentTarget) {
       setOpenFunction(false);
@@ -17,7 +19,7 @@ const HelpModal: React.FunctionComponent<{
     >
       <div className="sm:w-[600px] shadow-2xl min-h-screen absolute top-0 right-0 bg-white">
         <div className="relative bg-[#282726] text-[#F2F0E5] border-b text-[16px]">
-          <div className="p-4">Help</div>
+          <div className="p-4 font-semibold">Help</div>
           <button
             className="absolute top-0 right-0 p-4"
             onClick={() => setOpenFunction(false)}

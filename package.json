@@ -19,6 +19,7 @@
     "chartjs-adapter-moment": "^1.0.1",
     "classnames": "^2.3.2",
     "moment": "^2.29.4",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -49,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.11"
   }
 }

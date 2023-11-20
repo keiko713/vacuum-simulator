@@ -28,7 +28,13 @@ import {
 } from "./SimulationConfigSettingsContext";
 import { TotalStatsForRangeContext } from "./TotalStatsForRangeContext";
 import pganalyzeDefaultConfig from "../../sampledata/pganalyze_deafult_config.json";
+import pg15DefaultConfig from "../../sampledata/deafult_config.json";
 import SimulatorFooter from "./SimulatorFooter";
+import TableStatsUploader from "./TableStatsUploader";
+import {
+  getCustomTableStats,
+  getCustomTableStatsList,
+} from "./CustomTableStats";
 
 export type SampleTableName =
   | "issue_references"
@@ -37,48 +43,51 @@ export type SampleTableName =
   | "servers";
 
 const VacuumSimulator: React.FunctionComponent<{}> = () => {
-  const [sampleTableName, setSampleTableName] =
-    useState<SampleTableName>("issue_references");
+  const [tableName, setTableName] = useState<string>("issue_references");
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showConfigAdjuster, setShowConfigAdjuster] = useState<boolean>(true);
   // It's not a bit not straight forward, but when the sample table is changed,
   // set a new default config based on that table name
   // TODO: update here, as it's actually causing the rendering error
   const setSimulationConfig = useContext(SimulationConfigSetContext);
-  setSimulationConfig({ ...getDefaultConfig(sampleTableName) });
-  const inputStats = getSampleTableStats(sampleTableName);
+  setSimulationConfig({ ...getDefaultConfig(tableName) });
+  const inputStats = isSampleTableName(tableName)
+    ? getSampleTableStats(tableName as SampleTableName)
+    : getCustomTableStats(tableName)?.stats;
 
   return (
     <>
       <CollapsiblePanel title="Configuration" icon={faWrench}>
         <ConfigPanel
-          sampleTableName={sampleTableName}
-          setSampleTable={setSampleTableName}
+          tableName={tableName}
+          setTableName={setTableName}
           showOriginal={showOriginal}
           setShowOriginal={setShowOriginal}
           showConfigAdjuster={showConfigAdjuster}
           setShowConfigAdjuster={setShowConfigAdjuster}
         />
       </CollapsiblePanel>
-      <ChartPanels
-        inputStats={inputStats}
-        showOriginal={showOriginal}
-        showConfigAdjuster={showConfigAdjuster}
-      />
+      {inputStats && (
+        <ChartPanels
+          inputStats={inputStats}
+          showOriginal={showOriginal}
+          showConfigAdjuster={showConfigAdjuster}
+        />
+      )}
     </>
   );
 };
 
 const ConfigPanel: React.FunctionComponent<{
-  sampleTableName: SampleTableName;
-  setSampleTable: React.Dispatch<React.SetStateAction<SampleTableName>>;
+  tableName: string;
+  setTableName: React.Dispatch<React.SetStateAction<string>>;
   showOriginal: boolean;
   setShowOriginal: React.Dispatch<React.SetStateAction<boolean>>;
   showConfigAdjuster: boolean;
   setShowConfigAdjuster: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
-  sampleTableName,
-  setSampleTable,
+  tableName,
+  setTableName,
   showOriginal,
   setShowOriginal,
   showConfigAdjuster,
@@ -86,24 +95,41 @@ const ConfigPanel: React.FunctionComponent<{
 }) => {
   const setSimulationConfig = useContext(SimulationConfigSetContext);
   const resetToDefault = () => {
-    setSimulationConfig({ ...getDefaultConfig(sampleTableName) });
+    setSimulationConfig({ ...getDefaultConfig(tableName) });
   };
+  const customTableList = getCustomTableStatsList();
   return (
     <div className="p-4">
       <div className="flex items-center pb-4">
-        <div className="pr-3">Sample Table:</div>
+        <div className="pr-3">Table:</div>
         <select
-          onChange={(e) => setSampleTable(e.target.value as SampleTableName)}
-          value={sampleTableName}
-          className="bg-[#F2F0E5] border border-[#E6E4D9] rounded block w-[300px] p-2"
+          onChange={(e) => setTableName(e.target.value)}
+          value={tableName}
+          className="border border-[#E6E4D9] rounded block w-[300px] p-2"
         >
-          <option value="issue_references">Table with dead rows VACUUMs</option>
-          <option value="postgres_roles">Table with freeze age VACUUMs</option>
-          <option value="schema_table_stats_35d">
+          <option key="issue_references" value="issue_references">
+            Table with dead rows VACUUMs
+          </option>
+          <option key="postgres_roles" value="postgres_roles">
+            Table with freeze age VACUUMs
+          </option>
+          <option key="schema_table_stats_35d" value="schema_table_stats_35d">
             Table with inserts VACUUMs
           </option>
-          <option value="servers">Table with too many VACUUMs</option>
+          <option key="servers" value="servers">
+            Table with too many VACUUMs
+          </option>
+          {customTableList.map((customTable) => {
+            return (
+              <option key={customTable.key} value={customTable.key}>
+                {customTable.name}
+              </option>
+            );
+          })}
         </select>
+        <div className="px-3">
+          <TableStatsUploader />
+        </div>
         <div className="px-3">
           <button
             className="bg-[#100F0F] text-[#FFFCF0] hover:bg-[#3AA99F] rounded p-2"
@@ -219,9 +245,22 @@ const ChartPanels: React.FunctionComponent<{
   );
 };
 
-const getDefaultConfig = (tableName: SampleTableName) => {
-  // currently sample is only based on pganalyze data
-  return pganalyzeDefaultConfig;
+export const isSampleTableName = (name: string) => {
+  return (
+    name === "issue_references" ||
+    name === "postgres_roles" ||
+    name === "schema_table_stats_35d" ||
+    name === "servers"
+  );
+};
+
+const getDefaultConfig = (tableName: string) => {
+  if (isSampleTableName(tableName)) {
+    // sample is based on pganalyze data
+    return pganalyzeDefaultConfig;
+  } else {
+    return pg15DefaultConfig;
+  }
 };
 
 const getSampleTableStats = (tableName: SampleTableName) => {
