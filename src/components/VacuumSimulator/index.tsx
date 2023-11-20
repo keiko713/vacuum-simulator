@@ -16,11 +16,7 @@ import {
   InsertsSimulationChart,
 } from "./Charts";
 import { useContext, useState } from "react";
-import issueReferencesJson from "../../sampledata/issue_references.json";
-import serversJson from "../../sampledata/servers.json";
-import schemaTableStats35dJson from "../../sampledata/schema_table_stats_35d.json";
-import postgresRolesJson from "../../sampledata/postgres_roles.json";
-import { Datum, TableStatsType, simulateVacuum } from "./simulateVacuum";
+import { TableStatsType, simulateVacuum } from "./simulateVacuum";
 import ConfigAdjuster from "./ConfigAdjuster";
 import {
   SimulationConfigSetContext,
@@ -31,16 +27,8 @@ import pganalyzeDefaultConfig from "../../sampledata/pganalyze_deafult_config.js
 import pg15DefaultConfig from "../../sampledata/deafult_config.json";
 import SimulatorFooter from "./SimulatorFooter";
 import TableStatsUploader from "./TableStatsUploader";
-import {
-  getCustomTableStats,
-  getCustomTableStatsList,
-} from "./CustomTableStats";
-
-export type SampleTableName =
-  | "issue_references"
-  | "postgres_roles"
-  | "schema_table_stats_35d"
-  | "servers";
+import { getCustomTableStatsList } from "./CustomTableStats";
+import { getTableStats, isSampleTableName } from "./SampleTableStats";
 
 const VacuumSimulator: React.FunctionComponent<{}> = () => {
   const [tableName, setTableName] = useState<string>("issue_references");
@@ -51,9 +39,7 @@ const VacuumSimulator: React.FunctionComponent<{}> = () => {
   // TODO: update here, as it's actually causing the rendering error
   const setSimulationConfig = useContext(SimulationConfigSetContext);
   setSimulationConfig({ ...getDefaultConfig(tableName) });
-  const inputStats = isSampleTableName(tableName)
-    ? getSampleTableStats(tableName as SampleTableName)
-    : getCustomTableStats(tableName)?.stats;
+  const inputStats = getTableStats(tableName)?.stats;
 
   return (
     <>
@@ -245,15 +231,6 @@ const ChartPanels: React.FunctionComponent<{
   );
 };
 
-export const isSampleTableName = (name: string) => {
-  return (
-    name === "issue_references" ||
-    name === "postgres_roles" ||
-    name === "schema_table_stats_35d" ||
-    name === "servers"
-  );
-};
-
 const getDefaultConfig = (tableName: string) => {
   if (isSampleTableName(tableName)) {
     // sample is based on pganalyze data
@@ -261,30 +238,6 @@ const getDefaultConfig = (tableName: string) => {
   } else {
     return pg15DefaultConfig;
   }
-};
-
-const getSampleTableStats = (tableName: SampleTableName) => {
-  // default to issue_references
-  const inputStats =
-    tableName === "servers"
-      ? serversJson.tableStats
-      : tableName === "schema_table_stats_35d"
-      ? schemaTableStats35dJson.tableStats
-      : tableName === "postgres_roles"
-      ? postgresRolesJson.tableStats
-      : issueReferencesJson.tableStats;
-
-  return {
-    deadTuples: inputStats.deadTuples as Datum[],
-    liveTuples: inputStats.liveTuples as Datum[],
-    frozenxidAge: inputStats.frozenxidAge as Datum[],
-    minmxidAge: inputStats.minmxidAge as Datum[],
-    deletes: inputStats.deletes as Datum[],
-    inserts: inputStats.inserts as Datum[],
-    updates: inputStats.updates as Datum[],
-    hotUpdates: inputStats.hotUpdates as Datum[],
-    insertsSinceVacuum: inputStats.insertsSinceVacuum as Datum[],
-  };
 };
 
 export default VacuumSimulator;

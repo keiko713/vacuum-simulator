@@ -3,9 +3,9 @@ import Dialog from "../Dialog";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
 import Papa, { ParseResult } from "papaparse";
-import { isSampleTableName } from ".";
 import { toSnakeCase } from "../util";
-import { addCustomTableStats } from "./CustomTableStats";
+import { addCustomTableStats, isCustomTableName } from "./CustomTableStats";
+import { isSampleTableName } from "./SampleTableStats";
 
 export type InputData = {
   collectedAt: number;
@@ -37,10 +37,11 @@ const TableStatsUploader: React.FunctionComponent<{
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (isSampleTableName(toSnakeCase(value))) {
+    const key = toSnakeCase(value);
+    if (isSampleTableName(key) || isCustomTableName(key)) {
       setMessage({
         error: true,
-        message: "The name is used by sample tables, please use the other name",
+        message: `The table name "${value}" is already in use. Please choose a different name.`,
       });
       return;
     }
@@ -137,7 +138,9 @@ const TableStatsUploader: React.FunctionComponent<{
           >
             Upload File
           </button>
-          <div hidden={!message.message}>{message.message}</div>
+          <div className="font-semibold" hidden={!message.message}>
+            {message.message}
+          </div>
         </div>
       </div>
     </Dialog>
