@@ -17,8 +17,9 @@ new sample data over there. The sample data shape is _not the same_ as the one
 that you can collect using `/src/sampledata/collector.sql`, but it is the same
 as what you can obtain via pganalyze GraphQL.
 Notably, `deletes/inserts/updates/hotUpdates` are different as they are using
-per minute data with the pganalyze data, while `collector.sql` will be the
-cumulative value since the last stats reset.
+the diff data (how much it increased from the previous data collection) with the
+pganalyze data, while `collector.sql` will be the cumulative value since the
+last stats reset.
 
 Once a sample json file is placed, update the following parts so that it can
 show up as a new sample table option in the UI:
@@ -42,3 +43,9 @@ VACUUM Simulator is originally developed by [pganalyze](https://pganalyze.com),
 as a part of the [VACUUM Advisor](https://pganalyze.com/postgres-vacuum-advisor)
 feature. You can use the VACUUM Simulator in pganalyze too, using your actual
 database usage.
+
+Special thanks to pganalyze for allowing me to turn this into the open source
+project, as well as letting me use their database data as a sample data.
+
+Big thanks to pganalyze for letting this project go open source and for letting
+me use some of our database data as examples.
