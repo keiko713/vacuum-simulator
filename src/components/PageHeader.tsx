@@ -10,7 +10,10 @@ const PageHeader: React.FunctionComponent<{
       <div className="max-w-8xl mx-auto">
         <div className="py-4 border-b px-8 mx-0 lg:px-16">
           <div className="relative flex items-center">
-            <a className="mr-3 flex-none overflow-hidden text-[16px]" href="/">
+            <a
+              className="mr-3 flex-none overflow-hidden text-[16px] font-semibold"
+              href="/"
+            >
               VACUUM Simulator
             </a>
             <div className="relative flex items-center ml-auto">
