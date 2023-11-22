@@ -44,5 +44,5 @@ as a part of the [VACUUM Advisor](https://pganalyze.com/postgres-vacuum-advisor)
 feature. You can use the VACUUM Simulator in pganalyze too, using your actual
 database usage.
 
-Big thanks to pganalyze for letting this project go open source and for letting
-me use some of our database data as examples.
+Big thanks to pganalyze for letting this project go open source and for
+providing reference data from pganalyze's own database as examples.
