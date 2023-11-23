@@ -18,7 +18,7 @@ const HelpModal: React.FunctionComponent<{
       onClick={outerClickHandler}
     >
       <div className="sm:w-[600px] shadow-2xl min-h-screen absolute top-0 right-0 bg-white">
-        <div className="relative bg-[#282726] text-[#F2F0E5] border-b text-[16px]">
+        <div className="relative bg-zinc-900 text-zinc-100 border-b text-[16px]">
           <div className="p-4 font-semibold">Help</div>
           <button
             className="absolute top-0 right-0 p-4"
@@ -40,18 +40,9 @@ const HelpModal: React.FunctionComponent<{
             href="https://pganalyze.com/"
             target="_blank"
             rel="noreferrer"
-            className="border-b border-[#100F0F]"
+            className="border-b border-neutral-900"
           >
             pganalyze
-          </a>
-          . A color scheme is inspired by{" "}
-          <a
-            href="https://stephango.com/flexoki"
-            target="_blank"
-            rel="noreferrer"
-            className="border-b border-[#100F0F]"
-          >
-            Flexoki
           </a>
           .
         </div>

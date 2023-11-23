@@ -42,7 +42,7 @@ export const Dialog: React.FunctionComponent<{
   const labelId = useId();
   const descriptionId = useId();
 
-  const buttonClassName =  buttonClass ?? "bg-[#3AA99F] text-[#FFFCF0] hover:bg-[#24837B] rounded p-2"
+  const buttonClassName =  buttonClass ?? "bg-sky-500 text-sky-50 hover:bg-sky-600 disabled:bg-neutral-400 rounded p-2"
 
   return (
     <>
@@ -63,7 +63,7 @@ export const Dialog: React.FunctionComponent<{
               {...getFloatingProps()}
               className="sm:w-[600px] shadow-2xl min-h-screen absolute top-0 right-0 bg-white"
             >
-              <div className="relative bg-[#282726] text-[#F2F0E5] border-b text-[16px]">
+              <div className="relative bg-zinc-900 text-zinc-100 border-b text-[16px]">
                 <div className="p-4 font-semibold">{dialogHeader}</div>
                 <button
                   className="absolute top-0 right-0 p-4"

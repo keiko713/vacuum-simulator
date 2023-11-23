@@ -112,7 +112,7 @@ const TableStatsUploader: React.FunctionComponent<{
           href="https://github.com/keiko713/vacuum-simulator/blob/main/src/sampledata/collector.sql"
           target="_blank"
           rel="noreferrer"
-          className="border-b border-[#100F0F]"
+          className="border-b border-neutral-900"
         >
           collector.sql
         </a>
@@ -125,14 +125,14 @@ const TableStatsUploader: React.FunctionComponent<{
         </div>
         <div className="py-2 flex flex-col gap-4">
           <input
-            className="border border-[#E6E4D9] rounded block p-2"
+            className="border border-zinc-300 rounded block p-2"
             type="text"
             placeholder="your table name"
             onChange={handleNameChange}
           />
           <input type="file" accept=".csv" onChange={handleFileChange} />
           <button
-            className="bg-[#3AA99F] text-[#FFFCF0] hover:bg-[#24837B] disabled:bg-[#DAD8CE] rounded p-2"
+            className="bg-sky-500 text-sky-50 hover:bg-sky-600 disabled:bg-neutral-400 rounded p-2"
             onClick={handleUpload}
             disabled={!(inputData.tableName && inputData.file)}
           >

@@ -37,7 +37,7 @@ const SimulatorFooter: React.FunctionComponent<{
   };
 
   return (
-    <div className="sticky bottom-0 z-40 w-full backdrop-blur flex-none bg-[#D0A215] supports-backdrop-blur:bg-[#F2F0E5]/95">
+    <div className="sticky bottom-0 z-40 w-full backdrop-blur flex-none bg-sky-100">
       <div className="max-w-8xl mx-auto">
         <div className="p-4 mx-0 border-t border-x">
           <div className="grid grid-cols-[1fr_60px]">
@@ -57,7 +57,7 @@ const SimulatorFooter: React.FunctionComponent<{
                 className="ml-3"
               >
                 <FontAwesomeIcon
-                  className="hover:text-[#D14D41]"
+                  className="hover:text-sky-600"
                   icon={faRotateLeft}
                 />
               </button>
@@ -89,7 +89,7 @@ const SimulatorFooter: React.FunctionComponent<{
                     className="sr-only peer"
                     onChange={() => setShowOriginal(!showOriginal)}
                   />
-                  <div className="w-11 h-6 bg-[#6F6E69] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4385BE]"></div>
+                  <div className="w-11 h-6 bg-stone-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-700"></div>
                 </label>
                 <div className="px-3">
                   Show Config Adjusters
@@ -103,7 +103,7 @@ const SimulatorFooter: React.FunctionComponent<{
                     className="sr-only peer"
                     onChange={() => setShowConfigAdjuster(!showConfigAdjuster)}
                   />
-                  <div className="w-11 h-6 bg-[#6F6E69] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4385BE]"></div>
+                  <div className="w-11 h-6 bg-stone-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-700"></div>
                 </label>
               </div>
             </div>

@@ -64,7 +64,7 @@ const ConfigPanel: React.FunctionComponent<{
         <select
           onChange={(e) => setTableName(e.target.value)}
           value={tableName}
-          className="border border-[#E6E4D9] rounded block w-[300px] p-2"
+          className="border border-zinc-300 rounded block w-[300px] p-2"
         >
           {SampleTableList.map((sampleTable) => {
             return (

@@ -24,8 +24,8 @@ export const DeadRowsChart: React.FunctionComponent<{
               defaultConfig.autovacuumVacuumScaleFactor * val[1]) as number,
           } as Point;
         }),
-        borderColor: "#D14D41",
-        backgroundColor: "#D14D41",
+        borderColor: "#b91c1c",
+        backgroundColor: "#b91c1c",
         fill: false,
         borderWidth: 2,
       },
@@ -35,8 +35,8 @@ export const DeadRowsChart: React.FunctionComponent<{
         data: deadTuples.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#CECDC3",
-        backgroundColor: "#CECDC3",
+        borderColor: "#d6d3d1",
+        backgroundColor: "#d6d3d1",
         borderWidth: 2,
       },
     ],
@@ -56,8 +56,8 @@ export const DeadRowsSimulationChart: React.FunctionComponent<{
       data: threshold.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#D14D41",
-      backgroundColor: "#D14D41",
+      borderColor: "#b91c1c",
+      backgroundColor: "#b91c1c",
       fill: false,
       borderWidth: 2,
     },
@@ -67,8 +67,8 @@ export const DeadRowsSimulationChart: React.FunctionComponent<{
       data: daedRows.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#CECDC3",
-      backgroundColor: "#CECDC3",
+      borderColor: "#d6d3d1",
+      backgroundColor: "#d6d3d1",
       borderWidth: 2,
     },
   );
@@ -91,8 +91,8 @@ export const FreezeAgeChart: React.FunctionComponent<{
             y: defaultConfig.autovacuumFreezeMaxAge,
           } as Point;
         }),
-        borderColor: "#D14D41",
-        backgroundColor: "#D14D41",
+        borderColor: "#b91c1c",
+        backgroundColor: "#b91c1c",
         fill: false,
         borderWidth: 2,
       },
@@ -104,8 +104,8 @@ export const FreezeAgeChart: React.FunctionComponent<{
             y: defaultConfig.vacuumFreezeTableAge,
           } as Point;
         }),
-        borderColor: "#D0A215",
-        backgroundColor: "#FFFCF0",
+        borderColor: "#d97706",
+        backgroundColor: "#ffffff",
         fill: false,
         borderWidth: 2,
         borderDash: [2, 5],
@@ -116,8 +116,8 @@ export const FreezeAgeChart: React.FunctionComponent<{
         data: frozenxidAge.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#CECDC3",
-        backgroundColor: "#CECDC3",
+        borderColor: "#d6d3d1",
+        backgroundColor: "#d6d3d1",
         borderWidth: 2,
       },
     ],
@@ -138,8 +138,8 @@ export const FreezeAgeSimulationChart: React.FunctionComponent<{
       data: threshold.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#D14D41",
-      backgroundColor: "#D14D41",
+      borderColor: "#b91c1c",
+      backgroundColor: "#b91c1c",
       fill: false,
       borderWidth: 2,
     },
@@ -148,8 +148,8 @@ export const FreezeAgeSimulationChart: React.FunctionComponent<{
       data: tableFreezeThreshold.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#D0A215",
-      backgroundColor: "#FFFCF0",
+      borderColor: "#d97706",
+      backgroundColor: "#ffffff",
       fill: false,
       borderWidth: 2,
       borderDash: [2, 5],
@@ -160,8 +160,8 @@ export const FreezeAgeSimulationChart: React.FunctionComponent<{
       data: frozenxidAge.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#CECDC3",
-      backgroundColor: "#CECDC3",
+      borderColor: "#d6d3d1",
+      backgroundColor: "#d6d3d1",
       borderWidth: 2,
     },
   );
@@ -187,8 +187,8 @@ export const InsertsChart: React.FunctionComponent<{
               defaultConfig.autovacuumVacuumInsertScaleFactor * val[1],
           } as Point;
         }),
-        borderColor: "#D14D41",
-        backgroundColor: "#D14D41",
+        borderColor: "#b91c1c",
+        backgroundColor: "#b91c1c",
         fill: false,
         borderWidth: 2,
       },
@@ -198,8 +198,8 @@ export const InsertsChart: React.FunctionComponent<{
         data: inserts.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#CECDC3",
-        backgroundColor: "#CECDC3",
+        borderColor: "#d6d3d1",
+        backgroundColor: "#d6d3d1",
         borderWidth: 2,
       },
     ],
@@ -219,8 +219,8 @@ export const InsertsSimulationChart: React.FunctionComponent<{
       data: threshold.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#D14D41",
-      backgroundColor: "#D14D41",
+      borderColor: "#b91c1c",
+      backgroundColor: "#b91c1c",
       fill: false,
       borderWidth: 2,
     },
@@ -230,8 +230,8 @@ export const InsertsSimulationChart: React.FunctionComponent<{
       data: inserts.map((val) => {
         return { x: val[0] * 1000, y: val[1] } as Point;
       }),
-      borderColor: "#CECDC3",
-      backgroundColor: "#CECDC3",
+      borderColor: "#d6d3d1",
+      backgroundColor: "#d6d3d1",
       borderWidth: 2,
     },
   );
@@ -249,8 +249,8 @@ export const InputDataStatsChart: React.FunctionComponent<{
         data: tableStats.inserts.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#D14D41",
-        backgroundColor: "#D14D41",
+        borderColor: "#b91c1c",
+        backgroundColor: "#b91c1c",
         fill: false,
         borderWidth: 2,
       },
@@ -259,8 +259,8 @@ export const InputDataStatsChart: React.FunctionComponent<{
         data: tableStats.updates.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#D0A215",
-        backgroundColor: "#FFFCF0",
+        borderColor: "#d97706",
+        backgroundColor: "#ffffff",
         fill: false,
         borderWidth: 2,
       },
@@ -269,8 +269,8 @@ export const InputDataStatsChart: React.FunctionComponent<{
         data: tableStats.hotUpdates.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#D0A215",
-        backgroundColor: "#FFFCF0",
+        borderColor: "#d97706",
+        backgroundColor: "#ffffff",
         fill: false,
         borderWidth: 2,
         borderDash: [2, 5],
@@ -280,8 +280,8 @@ export const InputDataStatsChart: React.FunctionComponent<{
         data: tableStats.deletes.map((val) => {
           return { x: val[0] * 1000, y: val[1] } as Point;
         }),
-        borderColor: "#CECDC3",
-        backgroundColor: "#CECDC3",
+        borderColor: "#d6d3d1",
+        backgroundColor: "#d6d3d1",
         fill: false,
         borderWidth: 2,
       },
@@ -305,8 +305,8 @@ const vacuumDataset = (
       pointHoverRadius: 12,
       pointBorderWidth: 4,
       pointHoverBorderWidth: 4,
-      borderColor: "#4385BE",
-      backgroundColor: "#4385BE",
+      borderColor: "#0369a1",
+      backgroundColor: "#0369a1",
       pointStyle: "crossRot",
     },
     {
@@ -320,8 +320,8 @@ const vacuumDataset = (
       pointHoverRadius: 12,
       pointBorderWidth: 4,
       pointHoverBorderWidth: 4,
-      borderColor: "#4385BE",
-      backgroundColor: "#4385BE",
+      borderColor: "#0369a1",
+      backgroundColor: "#0369a1",
       pointStyle: "star",
     },
     {
@@ -335,8 +335,8 @@ const vacuumDataset = (
       pointHoverRadius: 12,
       pointBorderWidth: 4,
       pointHoverBorderWidth: 4,
-      borderColor: "#4385BE",
-      backgroundColor: "#4385BE",
+      borderColor: "#0369a1",
+      backgroundColor: "#0369a1",
       pointStyle: "cross",
     },
   ];
