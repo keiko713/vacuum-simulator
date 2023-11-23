@@ -14,7 +14,7 @@ import {
   InsertsChart,
   InsertsSimulationChart,
 } from "./Charts";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TableStatsType, simulateVacuum } from "./simulateVacuum";
 import ConfigAdjuster from "./ConfigAdjuster";
 import {
@@ -33,11 +33,13 @@ import {
 
 const VacuumSimulator: React.FunctionComponent<{}> = () => {
   const [tableName, setTableName] = useState<string>("issue_references");
-  // It's not a bit not straight forward, but when the sample table is changed,
-  // set a new default config based on that table name
-  // TODO: update here, as it's actually causing the rendering error
   const setSimulationConfig = useContext(SimulationConfigSetContext);
-  setSimulationConfig({ ...getDefaultConfig(tableName) });
+
+  useEffect(() => {
+    // when the sample table is changed, set a new default config based on that table name
+    setSimulationConfig({ ...getDefaultConfig(tableName) });
+  }, [tableName, setSimulationConfig]);
+
   const inputStats = getTableStats(tableName)?.stats;
 
   return (
